@@ -41,7 +41,7 @@ public class Rope: IRope
 
     private RopeNode Merge(RopeNode node1, RopeNode node2)
     {
-        throw new NotImplementedException();
+        return new RopeNode(node1, node2);
     }
 
 }
@@ -51,6 +51,7 @@ public class RopeNode
     public string? Value { get; set; }
     public RopeNode? Left { get; set; }
     public RopeNode? Right { get; set; }
+    public int Height { get; set; }
 
     public RopeNode(string value)
     {
@@ -61,6 +62,12 @@ public class RopeNode
     public RopeNode(int weight)
     {
         Weight = weight;
+    }
+
+    public RopeNode(RopeNode left, RopeNode right)
+    {
+        Left = left;
+        Right = right;
     }
 
     public int Weight
