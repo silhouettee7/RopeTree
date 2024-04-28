@@ -15,7 +15,7 @@ public class Rope: IRope
     {
         get
         {
-            throw new NotImplementedException();
+            
         }
     }
 
@@ -39,12 +39,53 @@ public class Rope: IRope
         throw new NotImplementedException();
     }
 
-    private RopeNode Merge(RopeNode node1, RopeNode node2)
+    private void Merge(RopeNode node1, RopeNode node2)
     {
-        return new RopeNode(node1, node2);
+        var res = new RopeNode(node1, node2);
+        _root = Balance(res);
     }
 
+    private RopeNode Balance(RopeNode node)
+    {
+        if (node.BalanceFactor > 1)
+        {
+            if (node.Right!.BalanceFactor < 0)
+            {
+                node.Right = RotateRight(node.Right);
+            }
 
+            node = RotateLeft(node);
+        }
+        else if (node.BalanceFactor < -1)
+        {
+            if (node.Left!.BalanceFactor > 0)
+            {
+                node.Left = RotateLeft(node.Left);
+            }
+            node = RotateRight(node);
+        }
+
+        return node;
+    }
+    private RopeNode RotateRight(RopeNode subTree)
+    {
+        var tempLeftTree = subTree;
+        subTree = subTree.Left!;
+        tempLeftTree.Left = subTree.Right;
+        subTree.Right = tempLeftTree;
+
+        return subTree;
+    }
+
+    private RopeNode RotateLeft(RopeNode subTree)
+    {
+        var tempRightTree = subTree;
+        subTree = subTree.Right!;
+        tempRightTree.Right = subTree.Left;
+        subTree.Left = tempRightTree;
+
+        return subTree;
+    }
 }
 
 public class RopeNode
