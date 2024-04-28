@@ -1,11 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-var rope = new Rope("hello");
-rope.Insert("_nice",5);
-Console.WriteLine(rope.GetString());
+﻿
 public interface IRope
 {
-    public bool Remove(int index, int length);
+    public void Remove(int index, int length);
     public void Insert(string value, int index);
 
 }
@@ -56,9 +52,11 @@ public class Rope: IRope
         _root = Merge(Merge(tree1, tree2), tree3);
     }
 
-    public bool Remove(int index, int length)
+    public void Remove(int index, int length)
     {
-        throw new NotImplementedException();
+        (RopeNode tree1, RopeNode tree2) = Split(_root, index);
+        var tree3 = Split(tree2, length).Item2;
+        _root = Merge(tree1, tree3);
     }
 
     private (RopeNode, RopeNode) Split(RopeNode node, int i)
