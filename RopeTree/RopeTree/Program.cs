@@ -1,11 +1,8 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 
-var rope = new Rope("Simple_text");
-var node1 = new RopeNode("_to_concat");
-rope.Merge(rope._root,node1);
-var node2 = new RopeNode("_with_another");
-rope.Merge(rope._root, node2);
-
+var rope = new Rope("hello");
+rope.Insert("_nice",5);
+Console.WriteLine(rope.GetString());
 public interface IRope
 {
     public bool Remove(int index, int length);
@@ -54,7 +51,9 @@ public class Rope: IRope
 
     public void Insert(string value, int index)
     {
-        throw new NotImplementedException();
+        (RopeNode tree1, RopeNode tree3) = Split(_root, index);
+        var tree2 = new RopeNode(value);
+        _root = Merge(Merge(tree1, tree2), tree3);
     }
 
     public bool Remove(int index, int length)
@@ -90,10 +89,11 @@ public class Rope: IRope
         return (tree1, tree2);
     }
 
-    public void Merge(RopeNode node1, RopeNode node2)
+    private RopeNode Merge(RopeNode node1, RopeNode node2)
     {
         var res = new RopeNode(node1, node2);
-        _root = Balance(res);
+
+        return res;
     }
 
     private RopeNode Balance(RopeNode node)
