@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 
-
 public interface IRope
 {
     public bool Remove(int index, int length);
@@ -9,13 +8,36 @@ public interface IRope
 }
 public class Rope: IRope
 {
-    private RopeNode _root;
+    public RopeNode _root;
 
-    public string this[int index]
+    public Rope(string value)
+    {
+        _root = new RopeNode(value);
+    }
+    public char this[int index]
     {
         get
         {
-            
+            var current = _root;
+            while (true)
+            {
+                if (current!.Left != null)
+                {
+                    if (current.Left.Weight > index)
+                    {
+                        current = current.Left;
+                    }
+                    else
+                    {
+                        index -= current.Left.Weight;
+                        current = current.Right;
+                    }
+                }
+                else
+                {
+                    return current.Value![index];
+                }
+            }
         }
     }
 
@@ -39,7 +61,7 @@ public class Rope: IRope
         throw new NotImplementedException();
     }
 
-    private void Merge(RopeNode node1, RopeNode node2)
+    public void Merge(RopeNode node1, RopeNode node2)
     {
         var res = new RopeNode(node1, node2);
         _root = Balance(res);
@@ -107,12 +129,6 @@ public class RopeNode
     public RopeNode(string value)
     {
         Value = value;
-        Weight = value.Length;
-    }
-
-    public RopeNode(int weight)
-    {
-        Weight = weight;
     }
 
     public RopeNode(RopeNode left, RopeNode right)
@@ -127,16 +143,12 @@ public class RopeNode
         {
             if (Left == null && Right == null)
             {
-                return Weight;
+                return Value!.Length;
             }
             int leftWeight = Left?.Weight ?? 0;
             int rightWeight = Right?.Weight ?? 0;
 
             return leftWeight + rightWeight;
-        }
-        set
-        {
-            Weight = value;
         }
     }
 
