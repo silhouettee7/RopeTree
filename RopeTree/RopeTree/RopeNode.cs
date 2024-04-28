@@ -5,28 +5,6 @@ public class RopeNode
     public string? Value { get; set; }
     public RopeNode? Left { get; set; }
     public RopeNode? Right { get; set; }
-    public int BalanceFactor => GetHeight(Right) - GetHeight(Left);
-    public int Height
-    {
-        get
-        {
-            var hl = GetHeight(Left);
-            var hr = GetHeight(Right);
-            return (hl > hr ? hl : hr) + 1;
-        }
-    }
-
-    public RopeNode(string value)
-    {
-        Value = value;
-    }
-
-    public RopeNode(RopeNode left, RopeNode right)
-    {
-        Left = left;
-        Right = right;
-    }
-
     public int Weight
     {
         get
@@ -37,9 +15,33 @@ public class RopeNode
             }
             int leftWeight = Left?.Weight ?? 0;
             int rightWeight = Right?.Weight ?? 0;
-
+            
             return leftWeight + rightWeight;
         }
+    }
+    public int BalanceFactor => GetHeight(Right) - GetHeight(Left);
+    public int Height
+    {
+        get
+        {
+            var hl = GetHeight(Left);
+            var hr = GetHeight(Right);
+            return (hl > hr ? hl : hr) + 1;
+        }
+    }
+    private static int GetHeight(RopeNode? node)
+    {
+        return node?.Height ?? 0;
+    }
+    public RopeNode(string value)
+    {
+        Value = value;
+    }
+
+    public RopeNode(RopeNode left, RopeNode right)
+    {
+        Left = left;
+        Right = right;
     }
 
     public string GetValue()
@@ -52,8 +54,4 @@ public class RopeNode
         return (Left != null ? Left.GetValue() : "") + (Right != null ? Right.GetValue() : "");
     }
 
-    private static int GetHeight(RopeNode? node)
-    {
-        return node?.Height ?? 0;
-    }
 }

@@ -2,7 +2,7 @@
 
 public class Rope : IRope
 {
-    public RopeNode _root;
+    private RopeNode _root;
 
     public Rope(string value)
     {
@@ -79,18 +79,18 @@ public class Rope : IRope
             {
                 (RopeNode, RopeNode) res = Split(node.Left, i);
                 tree1 = res.Item1;
-                tree2 = new RopeNode(res.Item2, node.Right);
+                tree2 = new RopeNode(res.Item2, node.Right!);
             }
             else
             {
-                (RopeNode, RopeNode) res = Split(node.Right, i - node.Left.Weight);
+                (RopeNode, RopeNode) res = Split(node.Right!, i - node.Left.Weight);
                 tree1 = new RopeNode(node.Left, res.Item1);
                 tree2 = res.Item2;
             }
         }
         else
         {
-            tree1 = new RopeNode(node.Value.Substring(0, i));
+            tree1 = new RopeNode(node.Value!.Substring(0, i));
             tree2 = new RopeNode(node.Value.Substring(i, node.Value.Length - i));
         }
 
