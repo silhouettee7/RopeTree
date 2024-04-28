@@ -43,6 +43,11 @@ public class Rope: IRope
     {
         throw new NotImplementedException();
     }
+
+    private void Balance()
+    {
+
+    }
 }
 
 public class RopeNode
