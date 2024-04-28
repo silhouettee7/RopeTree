@@ -31,7 +31,7 @@ public class Rope: IRope
 
     public bool Remove(int index, int length)
     {
-        throw new NotImplementedException();
+        return true;
     }
 
     private (RopeNode, RopeNode) Split(int index)
